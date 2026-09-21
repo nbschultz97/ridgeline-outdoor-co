@@ -15,7 +15,6 @@
     --max: 1100px;
     --font-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
     --font-body: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 * { box-sizing: border-box; }
@@ -121,15 +120,22 @@ a:hover { color: var(--pine-dark); }
 .brand-text { display: flex; flex-direction: column; }
 
 .primary-nav {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
+    display: none;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: var(--bg);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem 1rem 1rem;
+    border-bottom: 1px solid var(--line);
 }
+.primary-nav.is-open { display: flex; }
+.primary-nav .nav-link { padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
 .nav-link {
     text-decoration: none;
     color: var(--ink);
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 0.75rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -142,7 +148,7 @@ a:hover { color: var(--pine-dark); }
     display: inline-flex; align-items: center; gap: 0.35rem;
     text-decoration: none;
     color: var(--ink);
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 0.8rem;
 }
 .cart-icon { font-size: 1rem; }
@@ -157,7 +163,8 @@ a:hover { color: var(--pine-dark); }
 }
 
 .nav-toggle {
-    display: none;
+    display: flex;
+    margin-left: auto;
     background: none;
     border: 0;
     cursor: pointer;
@@ -179,12 +186,12 @@ a:hover { color: var(--pine-dark); }
 }
 .hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-columns: 1fr;
     gap: 3rem;
     align-items: center;
 }
 .kicker {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 0.75rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -217,7 +224,7 @@ a:hover { color: var(--pine-dark); }
     box-shadow: var(--shadow);
 }
 .card-eyebrow {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 0.7rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -232,7 +239,7 @@ a:hover { color: var(--pine-dark); }
 .btn {
     display: inline-flex; align-items: center;
     padding: 0.85rem 1.4rem;
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 0.8rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -311,14 +318,14 @@ section { padding: 4rem 0; }
 .product-art[data-cat="apparel"] { background: var(--amber); color: var(--ink); }
 .product-body { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
 .product-cat {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 0.65rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--ink-soft);
 }
 .product-title { font-family: var(--font-display); font-size: 1.3rem; text-transform: uppercase; margin: 0; }
-.product-meta { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.78rem; color: var(--ink-soft); }
+.product-meta { display: flex; justify-content: space-between; font-family: var(--font-body); font-size: 0.78rem; color: var(--ink-soft); }
 .product-price { font-weight: 600; color: var(--ink); }
 .product-cta {
     margin-top: 0.6rem;
@@ -327,7 +334,7 @@ section { padding: 4rem 0; }
     color: var(--bg);
     border: 0;
     padding: 0.55rem 0.9rem;
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 0.7rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -343,7 +350,7 @@ section { padding: 4rem 0; }
 }
 .newsletter-inner {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 2.5rem;
     align-items: center;
 }
@@ -385,7 +392,7 @@ section { padding: 4rem 0; }
 .shop { padding: 3rem 0 5rem; }
 .shop-grid {
     display: grid;
-    grid-template-columns: 240px minmax(0, 1fr);
+    grid-template-columns: 1fr;
     gap: 2rem;
     align-items: start;
 }
@@ -394,15 +401,14 @@ section { padding: 4rem 0; }
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 1.25rem;
-    position: sticky;
-    top: 90px;
+    position: static;
 }
 .filters h2 { font-size: 1rem; margin-bottom: 1rem; }
 .filter-group {
     border: 0; padding: 0; margin: 0 0 1.25rem;
 }
 .filter-group legend {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 0.7rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -422,12 +428,12 @@ section { padding: 4rem 0; }
 #weight-max-out {
     display: inline-block;
     margin-top: 0.4rem;
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 0.85rem;
     color: var(--ink-soft);
 }
 .result-count {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 0.78rem;
     color: var(--ink-soft);
     margin: 1rem 0 0;
@@ -454,7 +460,7 @@ section { padding: 4rem 0; }
 .contact { padding: 4rem 0 6rem; }
 .contact-grid {
     display: grid;
-    grid-template-columns: 280px minmax(0, 1fr);
+    grid-template-columns: 1fr;
     gap: 2.5rem;
     align-items: start;
 }
@@ -468,7 +474,7 @@ section { padding: 4rem 0; }
 .contact-list { margin: 0; }
 .contact-list > div { margin-bottom: 1rem; }
 .contact-list dt {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 0.7rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -485,7 +491,7 @@ section { padding: 4rem 0; }
 }
 .form-row { display: flex; flex-direction: column; gap: 0.4rem; }
 .form-row label {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 0.72rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -514,7 +520,7 @@ section { padding: 4rem 0; }
     border-color: var(--rust);
 }
 .char-count {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: 0.75rem;
     color: var(--ink-soft);
     margin: 0;
@@ -529,7 +535,7 @@ section { padding: 4rem 0; }
 }
 .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 2rem;
     margin-bottom: 2rem;
 }
@@ -554,26 +560,25 @@ section { padding: 4rem 0; }
     text-align: center;
 }
 
-/* Responsive */
-@media (max-width: 860px) {
+/* Responsive — mobile-first base styles above; this query layers on the desktop layout at 860px and up. */
+@media (min-width: 860px) {
     .primary-nav {
-        display: none;
-        position: absolute;
-        top: 100%; left: 0; right: 0;
-        background: var(--bg);
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
-        padding: 0.5rem 1rem 1rem;
-        border-bottom: 1px solid var(--line);
+        display: flex;
+        position: static;
+        flex-direction: row;
+        align-items: center;
+        gap: 1.5rem;
+        margin-left: auto;
+        padding: 0;
+        border-bottom: 0;
+        background: none;
     }
-    .primary-nav.is-open { display: flex; }
-    .primary-nav .nav-link { padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
-    .nav-toggle { display: flex; margin-left: auto; }
-    .hero-grid { grid-template-columns: 1fr; }
-    .newsletter-inner { grid-template-columns: 1fr; }
-    .shop-grid { grid-template-columns: 1fr; }
-    .filters { position: static; }
-    .contact-grid { grid-template-columns: 1fr; }
-    .footer-grid { grid-template-columns: 1fr; }
+    .primary-nav .nav-link { padding: 0; border-bottom: 0; }
+    .nav-toggle { display: none; }
+    .hero-grid { grid-template-columns: minmax(0, 1fr) 320px; }
+    .newsletter-inner { grid-template-columns: 1fr 1fr; }
+    .shop-grid { grid-template-columns: 240px minmax(0, 1fr); }
+    .filters { position: sticky; top: 90px; }
+    .contact-grid { grid-template-columns: 280px minmax(0, 1fr); }
+    .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
 }

@@ -14,7 +14,27 @@
         { id: 'a-03', title: 'Merino Base Layer', category: 'apparel', weight: 220, price: 89, icon: '○' }
     ];
 
-    var cart = [];
+    var CART_STORAGE_KEY = 'ridgeline-cart';
+
+    function loadCart() {
+        try {
+            var raw = window.localStorage.getItem(CART_STORAGE_KEY);
+            var parsed = raw ? JSON.parse(raw) : [];
+            return Array.isArray(parsed) ? parsed : [];
+        } catch (err) {
+            return [];
+        }
+    }
+
+    function saveCart(items) {
+        try {
+            window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+        } catch (err) {
+            // localStorage unavailable (private browsing, quota, etc.) — fail silently, cart still works in-memory
+        }
+    }
+
+    var cart = loadCart();
 
     function renderProductCard(product) {
         var li = document.createElement('article');
@@ -44,6 +64,7 @@
         var existing = cart.find(function (e) { return e.id === productId; });
         if (existing) { existing.qty += 1; }
         else { cart.push({ id: productId, qty: 1 }); }
+        saveCart(cart);
         updateCartCount();
         var btn = document.querySelector('[data-add="' + productId + '"]');
         if (btn) {
@@ -56,6 +77,9 @@
             }, 1200);
         }
     }
+
+    // Restore cart badge from localStorage on every page load
+    updateCartCount();
 
     // Featured products on home
     var featuredEl = document.getElementById('featured-products');
@@ -172,7 +196,11 @@
 
         contactForm.addEventListener('submit', function (event) {
             event.preventDefault();
-            var ok = validateName() & validateEmail() & validateMessage();
+            // Run all three validators (not short-circuited) so every invalid field shows its own message at once.
+            var nameOk = validateName();
+            var emailOk = validateEmail();
+            var messageOk = validateMessage();
+            var ok = nameOk && emailOk && messageOk;
             if (!ok) {
                 status.textContent = 'Please fix the highlighted fields and try again.';
                 return;
