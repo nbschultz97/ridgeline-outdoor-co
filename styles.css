@@ -45,7 +45,7 @@ h1, h2, h3 {
     margin: 0 0 1rem;
 }
 
-h1 { font-size: clamp(2.6rem, 6vw, 4.5rem); }
+h1 { font-size: clamp(2rem, 9vw, 4.5rem); overflow-wrap: break-word; }
 h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
 h3 { font-size: 1.2rem; }
 
@@ -186,10 +186,11 @@ a:hover { color: var(--pine-dark); }
 }
 .hero-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 3rem;
     align-items: center;
 }
+.hero-grid > * { min-width: 0; }
 .kicker {
     font-family: var(--font-body);
     font-size: 0.75rem;
@@ -350,10 +351,11 @@ section { padding: 4rem 0; }
 }
 .newsletter-inner {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
     align-items: center;
 }
+.newsletter-inner > * { min-width: 0; }
 .newsletter h2 { color: var(--bg); }
 .newsletter p { color: rgba(246, 244, 238, 0.78); }
 .newsletter-form {
@@ -392,10 +394,11 @@ section { padding: 4rem 0; }
 .shop { padding: 3rem 0 5rem; }
 .shop-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
     align-items: start;
 }
+.shop-grid > * { min-width: 0; }
 .filters {
     background: var(--paper);
     border: 1px solid var(--line);
@@ -460,10 +463,11 @@ section { padding: 4rem 0; }
 .contact { padding: 4rem 0 6rem; }
 .contact-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
     align-items: start;
 }
+.contact-grid > * { min-width: 0; }
 .contact-info {
     background: var(--paper);
     padding: 1.75rem;
@@ -535,10 +539,11 @@ section { padding: 4rem 0; }
 }
 .footer-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
     margin-bottom: 2rem;
 }
+.footer-grid > * { min-width: 0; }
 .site-footer h3 {
     color: var(--amber);
     font-size: 0.85rem;
