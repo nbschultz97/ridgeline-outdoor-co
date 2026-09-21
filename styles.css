@@ -1,16 +1,17 @@
-/* Ridgeline Outdoor Co. — stylesheet */
+/* Twin Cities Animal Rescue — stylesheet */
 
 :root {
-    --bg: #f6f4ee;
+    --bg: #f5faf8;
     --paper: #ffffff;
-    --ink: #1d2a24;
-    --ink-soft: #4a5b53;
-    --line: rgba(29, 42, 36, 0.18);
-    --pine: #2f5d4a;
-    --pine-dark: #1f4233;
-    --amber: #c08a3e;
-    --rust: #a4523a;
-    --shadow: 0 8px 24px rgba(29, 42, 36, 0.08);
+    --ink: #16241f;
+    --ink-soft: #43554e;
+    --line: rgba(22, 36, 31, 0.16);
+    --pine: #0f9a7c;
+    --pine-dark: #0b7360;
+    --amber: #e08b3c;
+    --rust: #e08b3c;
+    --error: #9c4212;
+    --shadow: 0 8px 24px rgba(22, 36, 31, 0.08);
     --radius: 4px;
     --max: 1100px;
     --font-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
@@ -118,6 +119,8 @@ a:hover { color: var(--pine-dark); }
     margin-top: -2px;
 }
 .brand-text { display: flex; flex-direction: column; }
+.brand-logo { height: 44px; width: auto; display: block; }
+.brand-logo-footer { height: 40px; filter: brightness(0) invert(1); }
 
 .primary-nav {
     display: none;
@@ -314,9 +317,9 @@ section { padding: 4rem 0; }
     font-size: 3rem;
     letter-spacing: 0.05em;
 }
-.product-art[data-cat="tents"] { background: var(--pine); }
-.product-art[data-cat="packs"] { background: var(--rust); }
-.product-art[data-cat="apparel"] { background: var(--amber); color: var(--ink); }
+.product-art[data-cat="dogs"] { background: var(--pine); }
+.product-art[data-cat="cats"] { background: var(--pine-dark); }
+.product-art[data-cat="small"] { background: var(--amber); color: var(--ink); }
 .product-body { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
 .product-cat {
     font-family: var(--font-body);
@@ -343,6 +346,51 @@ section { padding: 4rem 0; }
     cursor: pointer;
 }
 .product-cta:hover { background: var(--pine); }
+
+/* Spotlight (figure + audio message) */
+.spotlight { padding: 3rem 0 5rem; }
+.spotlight-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: start;
+}
+.spotlight-grid > * { min-width: 0; }
+.spotlight-figure { margin: 0; }
+.spotlight-figure picture, .spotlight-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+.spotlight-figure figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    font-style: italic;
+}
+.spotlight-copy audio { width: 100%; margin: 1rem 0 0.5rem; }
+.audio-fallback { font-size: 0.85rem; color: var(--ink-soft); }
+.about-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+}
+.contact-fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.contact-fieldset legend {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    padding: 0;
+    margin-bottom: 1rem;
+}
 
 /* Newsletter */
 .newsletter {
@@ -379,7 +427,7 @@ section { padding: 4rem 0; }
     outline: 2px solid var(--amber);
     outline-offset: 2px;
 }
-.form-help { font-size: 0.85rem; color: var(--rust); margin: 0.4rem 0 0; min-height: 1.2em; }
+.form-help { font-size: 0.85rem; color: var(--error); margin: 0.4rem 0 0; min-height: 1.2em; }
 .form-status { margin-top: 1rem; font-size: 0.95rem; }
 
 /* Page header */
@@ -521,7 +569,7 @@ section { padding: 4rem 0; }
 .form-row.is-invalid input,
 .form-row.is-invalid select,
 .form-row.is-invalid textarea {
-    border-color: var(--rust);
+    border-color: var(--error);
 }
 .char-count {
     font-family: var(--font-body);
@@ -581,6 +629,7 @@ section { padding: 4rem 0; }
     .primary-nav .nav-link { padding: 0; border-bottom: 0; }
     .nav-toggle { display: none; }
     .hero-grid { grid-template-columns: minmax(0, 1fr) 320px; }
+    .spotlight-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
     .newsletter-inner { grid-template-columns: 1fr 1fr; }
     .shop-grid { grid-template-columns: 240px minmax(0, 1fr); }
     .filters { position: sticky; top: 90px; }

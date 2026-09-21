@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services · Twin Cities Animal Rescue</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header" role="banner">
+        <div class="container header-inner">
+            <a class="brand" href="index.html" aria-label="Twin Cities Animal Rescue home">
+                <img class="brand-logo" src="assets/rescue-logo.png" alt="Twin Cities Animal Rescue logo">
+            </a>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-nav">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="primary-nav" id="primary-nav" aria-label="Primary">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="services.html" class="nav-link is-current">Services</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="#interest" class="nav-cart" aria-label="Saved interests, 0 items">
+                    <span class="cart-icon" aria-hidden="true">♥</span>
+                    <span class="cart-count" id="cart-count">0</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="page-header">
+            <div class="container">
+                <p class="kicker">Services</p>
+                <h1>Adopt, foster, or volunteer.</h1>
+                <p class="page-lede">Three ways to help. Pick one, or do all three &#8212; every option keeps an animal fed, safe, and closer to a permanent home.</p>
+            </div>
+        </section>
+
+        <section id="adopt" class="about">
+            <div class="container about-grid">
+                <div class="about-block">
+                    <h2>Adoption process</h2>
+                    <p>Browse available animals below or in person at our Saint Paul adoption center. Every adoption includes a vet exam, up-to-date vaccinations, and spay or neuter surgery already completed. Fees range from $75 for small animals to $250 for dogs, and cover only a fraction of actual veterinary cost. Meet-and-greets are free and require no appointment during open hours.</p>
+                </div>
+                <div id="foster" class="about-block">
+                    <h2>Foster program</h2>
+                    <p>Fostering is a temporary home, not a lifetime commitment &#8212; most placements run two to six weeks while an animal recovers, grows old enough for surgery, or simply needs a break from the shelter environment. We supply food, a crate or carrier, litter, and 24/7 phone support from our vet team. No fostering experience is required, and we match animals to your household, schedule, and any pets you already have.</p>
+                </div>
+                <div id="volunteer" class="about-block">
+                    <h2>Volunteer roles</h2>
+                    <p>Dog walkers and cat socializers commit to a weekly two-hour shift. Transport volunteers drive animals between partner shelters and vet appointments, usually once or twice a month. Event volunteers help staff adoption fairs on weekends. Every role starts with a 30-minute orientation, no prior animal-care experience needed.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="shop">
+            <div class="container shop-grid">
+                <aside class="filters" aria-label="Filters">
+                    <h2>Filter</h2>
+                    <fieldset class="filter-group">
+                        <legend>Animal type</legend>
+                        <label><input type="checkbox" name="category" value="dogs" checked> Dogs</label>
+                        <label><input type="checkbox" name="category" value="cats" checked> Cats</label>
+                        <label><input type="checkbox" name="category" value="small" checked> Small animals</label>
+                    </fieldset>
+                    <fieldset class="filter-group">
+                        <legend>Max age (years)</legend>
+                        <input type="range" id="weight-max" min="0" max="12" step="1" value="12" aria-describedby="weight-max-out">
+                        <output id="weight-max-out">12 yrs</output>
+                    </fieldset>
+                    <p class="result-count" id="result-count" aria-live="polite"></p>
+                </aside>
+
+                <div class="product-grid" id="shop-products">
+                    <!-- populated by main.js -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+        <div class="container footer-grid">
+            <div>
+                <p class="brand brand-footer"><img class="brand-logo brand-logo-footer" src="assets/rescue-logo.png" alt="Twin Cities Animal Rescue logo"></p>
+                <p class="footer-note">501(c)(3) nonprofit · Minneapolis&#8211;Saint Paul, MN</p>
+            </div>
+            <nav aria-label="Footer">
+                <h3>Get Involved</h3>
+                <ul>
+                    <li><a href="services.html">Adopt</a></li>
+                    <li><a href="services.html#foster">Foster</a></li>
+                    <li><a href="services.html#volunteer">Volunteer</a></li>
+                </ul>
+            </nav>
+            <nav aria-label="Company">
+                <h3>Organization</h3>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#">Annual report</a></li>
+                    <li><a href="#">Partner shelters</a></li>
+                </ul>
+            </nav>
+        </div>
+        <p class="footer-legal">&copy; 2026 Twin Cities Animal Rescue. All rights reserved.</p>
+    </footer>
+
+    <script src="main.js" defer></script>
+</body>
+</html>

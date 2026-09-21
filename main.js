@@ -1,24 +1,24 @@
-/* Ridgeline Outdoor Co. — interactive behavior */
+/* Twin Cities Animal Rescue — interactive behavior */
 (function () {
     'use strict';
 
-    var PRODUCTS = [
-        { id: 't-01', title: 'Sierra 2P Tent', category: 'tents', weight: 1850, price: 489, icon: '▲' },
-        { id: 't-02', title: 'Cirrus 1P Shelter', category: 'tents', weight: 780, price: 329, icon: '△' },
-        { id: 't-03', title: 'Four-Season Basecamp', category: 'tents', weight: 2950, price: 695, icon: '◼' },
-        { id: 'p-01', title: 'JMT 50L Pack', category: 'packs', weight: 1280, price: 249, icon: '◫' },
-        { id: 'p-02', title: 'Weekender 30L', category: 'packs', weight: 760, price: 159, icon: '◨' },
-        { id: 'p-03', title: 'Hauler 65L', category: 'packs', weight: 1640, price: 319, icon: '◧' },
-        { id: 'a-01', title: 'Down Sweater', category: 'apparel', weight: 380, price: 219, icon: '◆' },
-        { id: 'a-02', title: 'Hardshell Jacket', category: 'apparel', weight: 410, price: 329, icon: '◇' },
-        { id: 'a-03', title: 'Merino Base Layer', category: 'apparel', weight: 220, price: 89, icon: '○' }
+    var PETS = [
+        { id: 'd-01', title: 'Rosco', category: 'dogs', age: 8, sizeNote: 'Large · Bernese mix', icon: '◆' },
+        { id: 'd-02', title: 'Maple', category: 'dogs', age: 2, sizeNote: 'Medium · Shepherd mix', icon: '◇' },
+        { id: 'd-03', title: 'Biscuit', category: 'dogs', age: 5, sizeNote: 'Small · Terrier mix', icon: '○' },
+        { id: 'c-01', title: 'Juniper', category: 'cats', age: 3, sizeNote: 'Tabby · very affectionate', icon: '▲' },
+        { id: 'c-02', title: 'Onyx', category: 'cats', age: 6, sizeNote: 'Domestic shorthair · calm', icon: '△' },
+        { id: 'c-03', title: 'Clementine', category: 'cats', age: 1, sizeNote: 'Kitten · playful', icon: '◼' },
+        { id: 's-01', title: 'Pip', category: 'small', age: 1, sizeNote: 'Guinea pig · bonded pair available', icon: '◫' },
+        { id: 's-02', title: 'Hazel', category: 'small', age: 2, sizeNote: 'Rabbit · litter trained', icon: '◨' },
+        { id: 's-03', title: 'Sunny', category: 'small', age: 4, sizeNote: 'Rabbit · loves being held', icon: '◧' }
     ];
 
-    var CART_STORAGE_KEY = 'ridgeline-cart';
+    var FAVORITES_STORAGE_KEY = 'tcar-favorites';
 
-    function loadCart() {
+    function loadFavorites() {
         try {
-            var raw = window.localStorage.getItem(CART_STORAGE_KEY);
+            var raw = window.localStorage.getItem(FAVORITES_STORAGE_KEY);
             var parsed = raw ? JSON.parse(raw) : [];
             return Array.isArray(parsed) ? parsed : [];
         } catch (err) {
@@ -26,100 +26,102 @@
         }
     }
 
-    function saveCart(items) {
+    function saveFavorites(items) {
         try {
-            window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+            window.localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(items));
         } catch (err) {
-            // localStorage unavailable (private browsing, quota, etc.) — fail silently, cart still works in-memory
+            // localStorage unavailable (private browsing, quota, etc.) — fail silently, favorites still work in-memory
         }
     }
 
-    var cart = loadCart();
+    var favorites = loadFavorites();
 
-    function renderProductCard(product) {
+    function renderPetCard(pet) {
+        var isSaved = favorites.indexOf(pet.id) !== -1;
         var li = document.createElement('article');
         li.className = 'product';
-        li.dataset.category = product.category;
-        li.dataset.weight = String(product.weight);
+        li.dataset.category = pet.category;
+        li.dataset.age = String(pet.age);
         li.innerHTML =
-            '<div class="product-art" data-cat="' + product.category + '" aria-hidden="true">' + product.icon + '</div>' +
+            '<div class="product-art" data-cat="' + pet.category + '" aria-hidden="true">' + pet.icon + '</div>' +
             '<div class="product-body">' +
-                '<p class="product-cat">' + product.category + '</p>' +
-                '<h3 class="product-title">' + product.title + '</h3>' +
-                '<div class="product-meta"><span>' + product.weight + ' g</span><span class="product-price">$' + product.price + '</span></div>' +
-                '<button type="button" class="product-cta" data-add="' + product.id + '">Add to cart</button>' +
+                '<p class="product-cat">' + pet.category + '</p>' +
+                '<h3 class="product-title">' + pet.title + '</h3>' +
+                '<div class="product-meta"><span>' + pet.age + (pet.age === 1 ? ' yr' : ' yrs') + '</span><span class="product-price">' + pet.sizeNote + '</span></div>' +
+                '<button type="button" class="product-cta" data-fav="' + pet.id + '" aria-pressed="' + isSaved + '">' + (isSaved ? 'Saved ♥' : 'Save to my list') + '</button>' +
             '</div>';
         return li;
     }
 
-    function updateCartCount() {
+    function updateFavoritesCount() {
         var el = document.getElementById('cart-count');
         if (!el) return;
-        var total = cart.reduce(function (sum, entry) { return sum + entry.qty; }, 0);
+        var total = favorites.length;
         el.textContent = String(total);
-        el.parentElement.setAttribute('aria-label', 'Cart, ' + total + ' item' + (total === 1 ? '' : 's'));
+        el.parentElement.setAttribute('aria-label', 'Saved interests, ' + total + ' item' + (total === 1 ? '' : 's'));
     }
 
-    function addToCart(productId) {
-        var existing = cart.find(function (e) { return e.id === productId; });
-        if (existing) { existing.qty += 1; }
-        else { cart.push({ id: productId, qty: 1 }); }
-        saveCart(cart);
-        updateCartCount();
-        var btn = document.querySelector('[data-add="' + productId + '"]');
+    function toggleFavorite(petId) {
+        var index = favorites.indexOf(petId);
+        var nowSaved;
+        if (index === -1) {
+            favorites.push(petId);
+            nowSaved = true;
+        } else {
+            favorites.splice(index, 1);
+            nowSaved = false;
+        }
+        saveFavorites(favorites);
+        updateFavoritesCount();
+        var btn = document.querySelector('[data-fav="' + petId + '"]');
         if (btn) {
-            var original = btn.textContent;
-            btn.textContent = 'Added ✓';
-            btn.disabled = true;
-            setTimeout(function () {
-                btn.textContent = original;
-                btn.disabled = false;
-            }, 1200);
+            btn.textContent = nowSaved ? 'Saved ♥' : 'Save to my list';
+            btn.setAttribute('aria-pressed', String(nowSaved));
         }
     }
 
-    // Restore cart badge from localStorage on every page load
-    updateCartCount();
+    // Restore saved-interests badge from localStorage on every page load
+    updateFavoritesCount();
 
-    // Featured products on home
-    var featuredEl = document.getElementById('featured-products');
+    // Featured pets on home
+    var featuredEl = document.getElementById('featured-pets');
     if (featuredEl) {
-        PRODUCTS.slice(0, 6).forEach(function (product) {
-            featuredEl.appendChild(renderProductCard(product));
+        PETS.slice(0, 6).forEach(function (pet) {
+            featuredEl.appendChild(renderPetCard(pet));
         });
     }
 
-    // Shop with filters
+    // Services page: full list with filters
     var shopEl = document.getElementById('shop-products');
     if (shopEl) {
         function applyFilters() {
             var cats = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(function (c) { return c.value; });
-            var maxWeight = Number(document.getElementById('weight-max').value);
-            var filtered = PRODUCTS.filter(function (p) {
-                return cats.indexOf(p.category) !== -1 && p.weight <= maxWeight;
+            var maxAge = Number(document.getElementById('weight-max').value);
+            var filtered = PETS.filter(function (p) {
+                return cats.indexOf(p.category) !== -1 && p.age <= maxAge;
             });
             shopEl.innerHTML = '';
-            filtered.forEach(function (product) { shopEl.appendChild(renderProductCard(product)); });
+            filtered.forEach(function (pet) { shopEl.appendChild(renderPetCard(pet)); });
             var rc = document.getElementById('result-count');
-            if (rc) rc.textContent = filtered.length + ' product' + (filtered.length === 1 ? '' : 's');
+            if (rc) rc.textContent = filtered.length + ' animal' + (filtered.length === 1 ? '' : 's');
         }
         applyFilters();
         document.querySelectorAll('input[name="category"]').forEach(function (cb) {
             cb.addEventListener('change', applyFilters);
         });
-        var weight = document.getElementById('weight-max');
-        var weightOut = document.getElementById('weight-max-out');
-        weight.addEventListener('input', function () {
-            weightOut.textContent = weight.value + ' g';
+        var ageSlider = document.getElementById('weight-max');
+        var ageOut = document.getElementById('weight-max-out');
+        ageSlider.addEventListener('input', function () {
+            ageOut.textContent = ageSlider.value + ' yrs';
             applyFilters();
         });
     }
 
-    // Delegated add-to-cart
+    // Delegated save-to-list toggle
     document.addEventListener('click', function (event) {
         var t = event.target;
-        if (t && t.matches && t.matches('[data-add]')) {
-            addToCart(t.getAttribute('data-add'));
+        if (t && t.matches && t.matches('[data-fav]')) {
+            toggleFavorite(t.getAttribute('data-fav'));
         }
     });
 
@@ -147,7 +149,7 @@
                 nlInput.focus();
                 return;
             }
-            nlHelp.textContent = 'Thanks — you’re on the list. Look for our next field note in your inbox.';
+            nlHelp.textContent = 'Thanks — you’re on the list. Look for our next update in your inbox.';
             newsletter.reset();
         });
     }
@@ -206,7 +208,7 @@
                 return;
             }
             if (!topicInput.value) {
-                status.textContent = 'Please pick a topic.';
+                status.textContent = 'Please select an interest type.';
                 return;
             }
             status.textContent = 'Message sent — we’ll reply within one business day.';
